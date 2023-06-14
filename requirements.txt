@@ -1,0 +1,9 @@
+psycopg2==2.9.5
+aiogram~=2.23.1
+SQLAlchemy~=2.0.11
+SQLAlchemy-Utils~=0.41.1
+aiohttp~=3.8.3
+pytz~=2022.6
+aioschedule~=0.5.2
+phonenumbers~=8.13.2
+country_currencies

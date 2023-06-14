@@ -1,0 +1,18 @@
+version: '3'
+services:
+  master:
+    image: master
+    command: python main_master.py
+    ports:
+      - 1025
+    restart: unless-stopped
+    volumes:
+      - /etc/nginx/:/etc/nginx/
+  client:
+    image: master
+    command: python main_client.py
+    ports:
+      - 1026
+    restart: unless-stopped
+    volumes:
+      - /etc/nginx/:/etc/nginx/
