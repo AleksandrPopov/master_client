@@ -24,7 +24,7 @@ dp_master.middleware.setup(LoggingMiddleware())
 
 
 async def on_startup_master(app):
-    await bot_master.set_webhook(f'{HOST}:{PORT}/{NAME}-master/', certificate=open(CERT, 'rb'))
+    await bot_master.set_webhook(f'https://{HOST}:{PORT}/root/bots/master/master/', certificate=open(CERT, 'rb'))
     create(engine=engine)
     await commands_master()
     await register_schedules_handlers(dp=dp_master)
@@ -46,8 +46,7 @@ async def on_shutdown_master(app):
 
 
 if __name__ == '__main__':
-    app_master = get_new_configured_app(dispatcher=dp_master, path=f'/{NAME}-master/')
+    app_master = get_new_configured_app(dispatcher=dp_master, path=f'/root/bots/master/master/')
     app_master.on_startup.append(on_startup_master)
     app_master.on_shutdown.append(on_shutdown_master)
-
-    web.run_app(app_master, host=f'{NAME}-master', port=PORT_MASTER)
+    web.run_app(app_master, host=f'0.0.0.0', port=PORT_MASTER)

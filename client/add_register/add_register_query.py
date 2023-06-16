@@ -66,7 +66,6 @@ async def more_services(query: types.CallbackQuery, state: FSMContext):
     services_state = state_data.get('services')
     services_state.append(list(service_db))
     cost = await cost_summ(services_state)
-    print('----------------------------------', services_state)
     await state.update_data(services=services_state, cost=cost)
     await more_services_messages(message=query.message, state=await state.get_data())
 
@@ -130,11 +129,14 @@ async def confirm_register(query: types.CallbackQuery, state: FSMContext):
 
 async def add_register_to_db(query: types.CallbackQuery, state: FSMContext):
     state_date = await state.get_data()
-    await db.add_register(state=await state.get_data())
-    msg_text = f"<b>{Title.YOUR_REGISTER}</b>\n\n{await add_register_msg_builder(state=state_date)}"
-    msg_text_master = await register_msg_builder_client(state=state_date)
-    await bots.bot_client.edit_messages(message=query.message, text=msg_text)
-    await bots.bot_master.edit_another_bot_message(chat_id=state_date['master'][0], text=msg_text_master)
+    result = await db.add_register(state=await state.get_data())
+    if isinstance(result, int):
+        msg_text = f"<b>{Title.YOUR_REGISTER}</b>\n\n{await add_register_msg_builder(state=state_date)}"
+        msg_text_master = await register_msg_builder_client(state=state_date)
+        await query.message.edit_text(text=msg_text, reply_markup=None)
+        await bots.bot_master.edit_another_bot_message(chat_id=state_date['master'][0], text=msg_text_master)
+    else:
+        await bots.bot_client.edit_messages(message=query.message, text='error')
 
 
 async def price(query: types.CallbackQuery, state: FSMContext):

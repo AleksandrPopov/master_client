@@ -19,12 +19,12 @@ categories = Table('categories', meta,
                    )
 
 services = Table('services', meta,
-                 Column('id', Integer,Sequence("services_id_seq"), unique=True),
+                 Column('id', Integer, Sequence("services_id_seq"), unique=True),
                  Column('masters_id_pk', BigInteger, ForeignKey('masters.id', ondelete='CASCADE'), primary_key=True),
                  Column('categories_id_pk', Integer, ForeignKey('categories.id', ondelete='CASCADE'), primary_key=True),
                  Column('name', String(64), primary_key=True),
                  Column('time', Time),
-                 Column('cost', Numeric(5, 2))
+                 Column('cost', Integer)
                  )
 
 schedules = Table('schedules', meta,

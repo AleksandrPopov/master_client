@@ -247,7 +247,7 @@ async def get_service_data(category_id: int) -> dict:
         return db.execute(query).fetchall()
 
 
-async def add_register(state: dict):
+async def add_register(state: dict) -> int | None:
     date = datetime.strptime(state['date'], '%Y-%m-%d').date()
     start_time = datetime.strptime(state['start_time'], '%H:%M').time()
     stop_time = datetime.strptime(state['stop_time'], '%H:%M').time()
@@ -257,6 +257,7 @@ async def add_register(state: dict):
     client_table_id = state['client'][0]
     start = datetime.combine(date, start_time)
     stop = datetime.combine(date, stop_time)
+
     with engine.connect() as db:
         register_id = (
             insert(registers_date).
@@ -281,3 +282,4 @@ async def add_register(state: dict):
             )
             db.execute(query)
         db.commit()
+    return register_id

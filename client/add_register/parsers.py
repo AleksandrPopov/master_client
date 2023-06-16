@@ -420,14 +420,14 @@ async def cost_summ(services: list) -> int:
     summ = 0
     for service in services:
         summ += service[2]
-    return int(summ)
+    return summ
 
 
 async def cost_minus(cost: int, cost_service: int) -> str | int:
     cost -= cost_service
     if cost == 0:
         cost = '-'
-    return int(cost)
+    return cost
 
 
 async def time_summ(date: datetime, services: list):
